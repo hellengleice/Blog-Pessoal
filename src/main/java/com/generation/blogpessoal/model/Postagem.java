@@ -1,11 +1,17 @@
 package com.generation.blogpessoal.model;
 
+
+import java.time.LocalDateTime;
+
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -24,12 +30,14 @@ public class Postagem {
 		
 	@NotBlank(message = "O atributo texto é obrigatorio")
 	@Size(min = 5, max = 100, message = "O texto tem que ser maior que 5 e menor que 100")
-		private String texto;
-		
+		private String texto;	
 
 	@UpdateTimestamp
-		private String data;
-
+		private LocalDateTime data;
+	
+	@ManyToOne //classe postagem muitos : classe tema um
+	@JsonIgnoreProperties("postagem")
+	private Tema tema; //adicionado o objeto tema (id, descricao)
 
 	public Long getId() {
 		return id;
@@ -59,15 +67,26 @@ public class Postagem {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
+	
+	
 
-
-	public String getData() {
+	public LocalDateTime getData() {
 		return data;
 	}
 
 
-	public void setData(String data) {
+	public void setData(LocalDateTime data) {
 		this.data = data;
+	}
+
+
+	public Tema getTema() {
+		return tema;
+	}
+
+
+	public void setTema(Tema tema) {
+		this.tema = tema;
 	}
 		
 	
