@@ -25,13 +25,17 @@ public class UsuarioService {
 	@Autowired
     private JwtService jwtService;
 
+	//injeção de dependencias da AuthenticationManager
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    //método que garante que o usuario seja não esta sendo duplicado(mesmo email)
 	public Optional<Usuario> cadastrarUsuario(Usuario usuario) {
 
+		//SELECT * FROM tb_usuarios WHERE usuario = "hellen@gmail.com" =3
 		if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
 			return Optional.empty();
+		//hellen@gmail.com
 
 		usuario.setSenha(criptografarSenha(usuario.getSenha()));
 
